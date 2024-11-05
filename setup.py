@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='shadowjourney',
-    version='0.1.7',
+    version='0.1.9',
     description='shadowjourney API wrapper and cool stuff',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
