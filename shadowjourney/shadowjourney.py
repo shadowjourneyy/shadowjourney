@@ -3,7 +3,7 @@ from urllib.parse import urlparse
 from .exceptions import APIError, InvalidRequestError, AuthenticationError, AccessDeniedError, \
     ResourceNotFoundError, ServerError, PromptNotProvidedError, ModelNotProvidedError, UnexpectedError
 
-class Auth:
+class API:
     """
     The main client for interacting with the ShadowJourney API.
     """
@@ -26,7 +26,7 @@ class Auth:
         parsed_url = urlparse(url)
         return all([parsed_url.scheme, parsed_url.netloc])
 
-    def chatcmpl(self, model="gpt-3.5-turbo", max_tokens=100, prompt=None, system_prompt="ai"):
+    def chatcmpl(self, model="gpt-3.5-turbo", max_tokens=100, prompt=None, system_prompt="ai", stream=False, json=False):
         """
         Send a chat completion request to the v1 API with an optional system prompt.
         Raises custom exceptions for missing required parameters.
@@ -43,13 +43,17 @@ class Auth:
         data = {
             "model": model,
             "max_tokens": max_tokens,
-            "messages": messages
+            "messages": messages,
+            "stream": stream,
         }
 
         try:
             response = requests.post(url, headers=self.headers, json=data)
             response.raise_for_status()
-            return response.json()
+            if json:
+                return response.json()
+            else:
+                return response.content.decode('utf-8')
         except requests.exceptions.HTTPError as e:
             self.handle_http_error(e, response)
         except requests.exceptions.RequestException as e:
@@ -97,24 +101,46 @@ class Auth:
             print(e)
             return None
 
-    def GenAudio(self, prompt=None, model="text-to-speech-model"):
+    def embeddings(self, text=None, model="text-embedding-ada-002"):
         """
-        Generate text-to-speech audio from the given prompt and model.
+        Generate text embeddings based on the given text and model.
         Raises custom exceptions for missing required parameters.
         """
-        if prompt is None:
+        if text is None:
             raise PromptNotProvidedError()
-        if model is None:
-            raise ModelNotProvidedError()
 
-        url = f"{self.base_url}/audio/speech"
+        url = f"{self.base_url}/embeddings"
         payload = {
-            "text": prompt,
+            "text": text,
             "model": model
         }
 
         try:
             response = requests.post(url, json=payload, headers=self.headers)
+            response.raise_for_status()
+            return response.json()
+        except requests.exceptions.HTTPError as e:
+            self.handle_http_error(e, response)
+        except requests.exceptions.RequestException as e:
+            print(e)
+            return None
+
+    def transcriptions(self, audio_file=None, model="whisper-1"):
+        """
+        Generate text transcription from the given audio file and model.
+        Raises custom exceptions for missing required parameters.
+        """
+        if audio_file is None:
+            raise PromptNotProvidedError()
+
+        url = f"{self.base_url}/transcriptions"
+        files = {'audio': audio_file}
+        payload = {
+            "model": model
+        }
+
+        try:
+            response = requests.post(url, files=files, data=payload, headers=self.headers)
             response.raise_for_status()
             return response.json()
         except requests.exceptions.HTTPError as e:

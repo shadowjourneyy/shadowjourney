@@ -1,2 +1,2 @@
 # __init__.py
-from .shadowjourney import Auth
+from .shadowjourney import API
