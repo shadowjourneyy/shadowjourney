@@ -27,7 +27,7 @@ client = API(api_key="your_api_key")
 
 # Non-Streaming
 response = client.chat.completions.create(
-    model="gpt-40",
+    model="gpt-4o",
     messages=[
         {"role": "system", "content": "You are a helpful assistant."},
         {"role": "user", "content": "Explain quantum computing."}
