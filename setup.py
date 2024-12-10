@@ -1,5 +1,3 @@
-# setup.py
-
 from setuptools import setup, find_packages
 
 setup(
@@ -13,7 +11,7 @@ setup(
     maintainer = 'Bananalolok',
     maintainer_email = "katz@katz.is-a.dev",
     url='https://github.com/shadowjourneyy/shadowjourney',
-    packages=find_packages(),
+    packages=find_packages(include=['shadowjourney', 'shadowjourney.responses']),
     install_requires=[
         'requests',
         'aiohttp'

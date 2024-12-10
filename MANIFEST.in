@@ -1,0 +1,9 @@
+recursive-include shadowjourney *.py
+
+recursive-include shadowjourney/responses *.py
+
+include LICENSE
+include README.md
+
+include pyproject.toml
+include setup.py
