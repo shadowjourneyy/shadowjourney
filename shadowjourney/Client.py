@@ -63,7 +63,6 @@ class API:
                     "messages": messages,
                     "stream": stream,
                 }
-
                 try:        
                     if not stream:
                         response = requests.post(url, headers=self.api.headers, json=data)
@@ -89,8 +88,8 @@ class API:
                     elif status_code == 404:
                         raise ResourceNotFoundError(f"Resource not found")
                     elif status_code == 429:
-                        raise RateLimitError(f"Rate limit exceede")
-                    elif status_code >= 500:
+                        raise RateLimitError(f"Rate limit exceeded")
+                    elif status_code == 500:
                         raise ServerError(f"{e}")
                     else:
                         raise UnexpectedError(f"HTTP error: {e}")

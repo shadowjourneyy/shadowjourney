@@ -1,5 +1,5 @@
-import chat
-import chat_stream
-import embedding
-import images
-import transcription
+from . import chat
+from . import chat_stream
+from . import embedding
+from . import images
+from . import transcription

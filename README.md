@@ -73,7 +73,7 @@ async def streaming():
     chunks = await client.chat.completions.create(
         messages=[{"role": "user", "content": "Hello!"}],
         stream=True,
-        model=CHATMODEL
+        model="gpt-4o"
     )
     async for chunk in chunks:
         print(chunk.choices[0].delta.content)
