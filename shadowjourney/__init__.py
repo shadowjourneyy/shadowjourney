@@ -1,2 +1,3 @@
 # __init__.py
-from .shadowjourney import API
+from .Client import API
+from .AsyncClient import AsyncAPI

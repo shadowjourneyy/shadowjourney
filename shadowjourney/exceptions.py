@@ -16,6 +16,10 @@ class AccessDeniedError(APIError):
     """Raised when access is denied (e.g., insufficient permissions)."""
     pass
 
+class RateLimitError(APIError):
+    """Raised when access is denied (e.g., insufficient permissions)."""
+    pass
+
 class ResourceNotFoundError(APIError):
     """Raised when the requested resource is not found (404 error)."""
     pass
@@ -34,6 +38,16 @@ class ModelNotProvidedError(InvalidRequestError):
     def __init__(self, message="Model not provided."):
         super().__init__(message)
 
+class InvalidModelError(InvalidRequestError):
+    """Raised when a required model is not provided in a request."""
+    def __init__(self, message="Invalid Model."):
+        super().__init__(message)
+
+
 class UnexpectedError(APIError):
     """Raised when an unexpected error occurs (any unhandled status code)."""
+    pass
+
+class PromptNotProvidedError(Exception):
+    """Exception raised when no prompt is provided."""
     pass

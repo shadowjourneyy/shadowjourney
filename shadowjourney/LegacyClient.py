@@ -5,7 +5,8 @@ from .exceptions import APIError, InvalidRequestError, AuthenticationError, Acce
 
 class API:
     """
-    The main client for interacting with the ShadowJourney API.
+    The legacy client for interacting with the ShadowJourney API.
+    for a more maintained client use `AsyncShadowJourney` or `ShadowJourney`
     """
     def __init__(self, key, baseurl="https://shadowjourney.xyz/v1"):
         """
